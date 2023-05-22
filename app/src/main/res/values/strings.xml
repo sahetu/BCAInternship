@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">BCA Internship</string>
+
+    <string name="name">Name</string>
+    <string name="email">Your Email Id</string>
+    <string name="contact">Contact No.</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="date_of_birth">Date Of Birth</string>
+
+    <string name="signup">Signup</string>
+
 </resources>
