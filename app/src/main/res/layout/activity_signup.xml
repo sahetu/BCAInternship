@@ -8,9 +8,9 @@
     tools:context=".SignupActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -20,120 +20,123 @@
             android:src="@drawable/login_icon" />
 
         <EditText
-            android:drawablePadding="@dimen/_10sdp"
-            android:drawableLeft="@drawable/user"
             android:id="@+id/signup_name"
             style="@style/edit_white_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_30sdp"
+            android:drawableLeft="@drawable/user"
+            android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/name" />
 
         <EditText
-            android:drawablePadding="@dimen/_10sdp"
             android:id="@+id/signup_email"
-            android:drawableLeft="@drawable/mail"
             style="@style/edit_white_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/mail"
+            android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/email"
             android:inputType="textEmailAddress" />
 
         <EditText
-            android:drawableLeft="@drawable/phone"
-            android:drawablePadding="@dimen/_10sdp"
             android:id="@+id/signup_contact"
             style="@style/edit_white_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/phone"
+            android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/contact"
             android:inputType="phone"
             android:maxLength="10" />
 
         <EditText
-            android:drawableLeft="@drawable/password"
-            android:drawablePadding="@dimen/_10sdp"
             android:id="@+id/signup_password"
             style="@style/edit_white_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/password"
+            android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLength="15" />
 
         <EditText
-            android:drawableLeft="@drawable/password"
-            android:drawablePadding="@dimen/_10sdp"
             android:id="@+id/signup_confirm_password"
             style="@style/edit_white_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/password"
+            android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/confirm_password"
             android:inputType="textPassword"
             android:maxLength="15" />
 
         <EditText
-            android:drawableLeft="@drawable/ic_calendar"
-            android:drawablePadding="@dimen/_10sdp"
-            android:id="@+id/signup_dtae_of_birth"
+            android:editable="false"
+            android:id="@+id/signup_date_of_birth"
             style="@style/edit_white_14"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:drawablePadding="@dimen/_10sdp"
             android:hint="@string/date_of_birth" />
 
         <RadioGroup
-            android:orientation="horizontal"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:id="@+id/signup_gender"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
 
             <RadioButton
-                android:layout_weight="1"
                 android:id="@+id/signup_male"
-                android:text="Male"
-                app:buttonTint="@color/white_transparent_70"
-                android:textColor="@color/white_transparent_70"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Male"
+                android:textColor="@color/white_transparent_70"
+                app:buttonTint="@color/white_transparent_70" />
 
             <RadioButton
-                android:layout_weight="1"
                 android:id="@+id/signup_female"
-                android:text="Female"
-                app:buttonTint="@color/white_transparent_70"
-                android:textColor="@color/white_transparent_70"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Female"
+                android:textColor="@color/white_transparent_70"
+                app:buttonTint="@color/white_transparent_70" />
 
         </RadioGroup>
 
         <Spinner
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginHorizontal="@dimen/_20sdp"
-            android:background="@color/white_transparent_70"
+            android:id="@+id/signup_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/white_transparent_70" />
 
         <Button
             android:id="@+id/signup_button"
-            android:text="@string/signup"
-            android:layout_marginVertical="@dimen/_30sdp"
-            android:layout_marginHorizontal="@dimen/_20sdp"
             style="@style/button_18_bold"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_20sdp"
+            android:layout_marginVertical="@dimen/_30sdp"
+            android:text="@string/signup" />
 
     </LinearLayout>
 
