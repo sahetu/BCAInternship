@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -13,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -26,6 +29,9 @@ public class SignupActivity extends AppCompatActivity {
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
 
     Calendar calendar;
+
+    //String[] cityArray = {"Ahmedabad","Surat","Rajkot","Vadodara"};
+    ArrayList<String> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +97,36 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         spinner = findViewById(R.id.signup_spinner);
+
+        arrayList = new ArrayList<>();
+        arrayList.add("Ahmedabad");
+        arrayList.add("Rajkot");
+        arrayList.add("Gandhinagar");
+        arrayList.add("Demo");
+        arrayList.add("Surt");
+        arrayList.add("Anand");
+
+        arrayList.remove(3);
+        arrayList.set(3,"Surat");
+
+        ArrayAdapter adapter = new ArrayAdapter(SignupActivity.this, android.R.layout.simple_list_item_1,arrayList);
+        adapter.setDropDownViewResource(android.R.layout.simple_list_item_checked);
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                //String selectedCity = cityArray[i];
+                String selectedCity = arrayList.get(i);
+                new CommonMethod(SignupActivity.this,selectedCity);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
         signup = findViewById(R.id.signup_button);
 
         name.setText("Test");
