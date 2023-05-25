@@ -3,6 +3,8 @@ package bca.internship;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,9 +23,9 @@ import java.util.Locale;
 
 public class SignupActivity extends AppCompatActivity {
 
-    EditText name,email,contact,password,confirmPassword,dateOfBirth;
+    EditText name, email, contact, password, confirmPassword, dateOfBirth;
     RadioGroup gender;
-    RadioButton male,female;
+    RadioButton male, female;
     Spinner spinner;
     Button signup;
     String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
@@ -33,10 +35,17 @@ public class SignupActivity extends AppCompatActivity {
     //String[] cityArray = {"Ahmedabad","Surat","Rajkot","Vadodara"};
     ArrayList<String> arrayList;
 
+    SQLiteDatabase db;
+    String sGender, selectedCity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+        db = openOrCreateDatabase("StudentDatabase", MODE_PRIVATE, null);
+
+        String tableQuery = "CREATE TABLE IF NOT EXISTS USERS(NAME VARCHAR(100),EMAIL VARCHAR(100),CONTACT BIGINT(10),PASSWORD VARCHAR(15),DOB VARCHAR(10),GENDER VARCHAR(6),CITY VARCHAR(50))";
+        db.execSQL(tableQuery);
 
         //new CommonMethod(SignupActivity.this, "Login Successfully");
 
@@ -52,9 +61,9 @@ public class SignupActivity extends AppCompatActivity {
         DatePickerDialog.OnDateSetListener dateClick = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                calendar.set(Calendar.YEAR,i);
-                calendar.set(Calendar.MONTH,i1);
-                calendar.set(Calendar.DAY_OF_MONTH,i2);
+                calendar.set(Calendar.YEAR, i);
+                calendar.set(Calendar.MONTH, i1);
+                calendar.set(Calendar.DAY_OF_MONTH, i2);
 
                 SimpleDateFormat simpleFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
                 dateOfBirth.setText(simpleFormat.format(calendar.getTime()));
@@ -64,7 +73,7 @@ public class SignupActivity extends AppCompatActivity {
         dateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog pickerDialog = new DatePickerDialog(SignupActivity.this,dateClick,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH));
+                DatePickerDialog pickerDialog = new DatePickerDialog(SignupActivity.this, dateClick, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
                 pickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
                 pickerDialog.show();
             }
@@ -92,7 +101,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 RadioButton radioButton = findViewById(i);
-                new CommonMethod(SignupActivity.this,radioButton.getText().toString());
+                sGender = radioButton.getText().toString();
+                new CommonMethod(SignupActivity.this, sGender);
             }
         });
 
@@ -107,9 +117,9 @@ public class SignupActivity extends AppCompatActivity {
         arrayList.add("Anand");
 
         arrayList.remove(3);
-        arrayList.set(3,"Surat");
+        arrayList.set(3, "Surat");
 
-        ArrayAdapter adapter = new ArrayAdapter(SignupActivity.this, android.R.layout.simple_list_item_1,arrayList);
+        ArrayAdapter adapter = new ArrayAdapter(SignupActivity.this, android.R.layout.simple_list_item_1, arrayList);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_checked);
         spinner.setAdapter(adapter);
 
@@ -117,8 +127,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 //String selectedCity = cityArray[i];
-                String selectedCity = arrayList.get(i);
-                new CommonMethod(SignupActivity.this,selectedCity);
+                selectedCity = arrayList.get(i);
+                new CommonMethod(SignupActivity.this, selectedCity);
             }
 
             @Override
@@ -129,55 +139,54 @@ public class SignupActivity extends AppCompatActivity {
 
         signup = findViewById(R.id.signup_button);
 
-        name.setText("Test");
+        /*name.setText("Test");
         email.setText("test@gmail.com");
         contact.setText("9090901231");
         password.setText("123123");
         confirmPassword.setText("123123");
-        dateOfBirth.setText("23-05-2023");
+        dateOfBirth.setText("23-05-2023");*/
 
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(name.getText().toString().trim().equals("")){
+                if (name.getText().toString().trim().equals("")) {
                     name.setError("Name Required");
-                }
-                else if(email.getText().toString().trim().equals("")){
+                } else if (email.getText().toString().trim().equals("")) {
                     email.setError("Email Id Required");
-                }
-                else if(!email.getText().toString().matches(emailPattern)){
+                } else if (!email.getText().toString().matches(emailPattern)) {
                     email.setError("Valid Email Id Required");
-                }
-                else if(contact.getText().toString().trim().equals("")){
+                } else if (contact.getText().toString().trim().equals("")) {
                     contact.setError("Contact No. Required");
-                }
-                else if(contact.getText().toString().length()<10){
+                } else if (contact.getText().toString().length() < 10) {
                     contact.setError("Valid Contact No. Required");
-                }
-                else if(password.getText().toString().trim().equals("")){
+                } else if (password.getText().toString().trim().equals("")) {
                     password.setError("Password Required");
-                }
-                else if(password.getText().toString().length()<6){
+                } else if (password.getText().toString().length() < 6) {
                     password.setError("Min. 6 Character Password Required");
-                }
-                else if(confirmPassword.getText().toString().trim().equals("")){
+                } else if (confirmPassword.getText().toString().trim().equals("")) {
                     confirmPassword.setError("Confirm Password Required");
-                }
-                else if(confirmPassword.getText().toString().length()<6){
+                } else if (confirmPassword.getText().toString().length() < 6) {
                     confirmPassword.setError("Min. 6 Character Confirm Password Required");
-                }
-                else if(!confirmPassword.getText().toString().matches(password.getText().toString())){
+                } else if (!confirmPassword.getText().toString().matches(password.getText().toString())) {
                     confirmPassword.setError("Confirm Password Does Not Match");
-                }
-                else if(dateOfBirth.getText().toString().trim().equals("")){
+                } else if (dateOfBirth.getText().toString().trim().equals("")) {
                     //dateOfBirth.setError("Please Select Date Of Birth");
-                    new CommonMethod(SignupActivity.this,"Please Select Date Of Birth");
-                }
-                else if(gender.getCheckedRadioButtonId() == -1){
-                    new CommonMethod(SignupActivity.this,"Please Select Gender");
-                }
-                else{
-                    new CommonMethod(SignupActivity.this,"Signup Successfully");
+                    new CommonMethod(SignupActivity.this, "Please Select Date Of Birth");
+                } else if (gender.getCheckedRadioButtonId() == -1) {
+                    new CommonMethod(SignupActivity.this, "Please Select Gender");
+                } else {
+
+                    String checkDataQuery = "SELECT * FROM USERS WHERE EMAIL='"+email.getText().toString()+"' OR CONTACT='"+contact.getText().toString()+"'";
+                    Cursor cursor = db.rawQuery(checkDataQuery,null);
+                    if(cursor.getCount()>0){
+                        new CommonMethod(SignupActivity.this,"Email Id/Contact No. Already Registered");
+                    }
+                    else{
+                        String insertQuery = "INSERT INTO USERS VALUES ('" + name.getText().toString() + "','" + email.getText().toString() + "','" + contact.getText().toString() + "','" + password.getText().toString() + "','" + dateOfBirth.getText().toString() + "','" + sGender + "','" + selectedCity + "')";
+                        db.execSQL(insertQuery);
+                        new CommonMethod(SignupActivity.this, "Signup Successfully");
+                        onBackPressed();
+                    }
                 }
             }
         });
